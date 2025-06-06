@@ -130,6 +130,26 @@ public struct Relationship: Codable, Equatable {
       """
       http://purl.oclc.org/ooxml/officeDocument/relationships/extendedProperties
       """
+    case rdRichValueStructure =
+      """
+      http://schemas.microsoft.com/office/2017/06/relationships/rdRichValueStructure
+      """
+    case rdRichValueWebImage =
+      """
+      http://schemas.microsoft.com/office/2020/07/relationships/rdRichValueWebImage
+      """
+    case sheetMetadata =
+      """
+      http://schemas.openxmlformats.org/officeDocument/2006/relationships/sheetMetadata
+      """
+    case rdRichValueTypes =
+      """
+      http://schemas.microsoft.com/office/2017/06/relationships/rdRichValueTypes
+      """
+    case rdRichValue =
+      """
+      http://schemas.microsoft.com/office/2017/06/relationships/rdRichValue
+      """
   }
 
   /// The identifier for this entity.
