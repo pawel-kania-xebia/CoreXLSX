@@ -24,9 +24,9 @@ let package = Package(
     // Dependencies declare other packages that this package depends on.
     // .package(url: /* package url */, from: "1.0.0"),
     .package(url: "https://github.com/maxdesiatov/XMLCoder.git",
-             .upToNextMinor(from: "0.14.0")),
+             .upToNextMinor(from: "0.17.1")),
     .package(url: "https://github.com/weichsel/ZIPFoundation.git",
-             .upToNextMinor(from: "0.9.11")),
+             .upToNextMinor(from: "0.9.19")),
   ],
   targets: [
     // Targets are the basic building blocks of a package. A target can define
