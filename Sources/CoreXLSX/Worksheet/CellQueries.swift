@@ -20,35 +20,58 @@ import Foundation
 public extension Worksheet {
   /// Return all cells that are contained in a given worksheet and collection of
   /// columns.
-  func cells<T>(atColumns columns: T) -> [Cell]
-    where T: Collection, T.Element == ColumnReference
-  {
-    data?.rows.map {
-      $0.cells.filter { columns.contains($0.reference.column) }
+    func cells<T>(atColumns columns: T) -> [Cell]
+        where T: Collection, T.Element == ColumnReference
+    {
+        guard let rows = data?.rows else { return [] }
+        var result: [Cell] = []
+        result.reserveCapacity(rows.count)
+        for row in rows {
+            for cell in row.cells where columns.contains(cell.reference.column) {
+                result.append(cell)
+            }
+        }
+        return result
     }
-    .reduce([]) { $0 + $1 } ?? []
-  }
+
 
   /// Return all cells that are contained in a given worksheet and collection of
   /// rows.
-  func cells<T>(atRows rows: T) -> [Cell]
-    where T: Collection, T.Element == UInt
-  {
-    data?.rows.filter { rows.contains($0.reference) }
-      .reduce([]) { $0 + $1.cells } ?? []
-  }
+    func cells<T>(atRows rows: T) -> [Cell]
+        where T: Collection, T.Element == UInt
+    {
+        guard let dataRows = data?.rows else { return [] }
+        let rowSet = Set(rows)
+        var result: [Cell] = []
+
+        for row in dataRows where rowSet.contains(row.reference) {
+            result.append(contentsOf: row.cells)
+        }
+
+        return result
+    }
 
   /// Return all cells that are contained in a given worksheet and collections
   /// of rows and columns.
-  func cells<T1, T2>(atColumns columns: T1, rows: T2) -> [Cell]
-    where T1: Collection, T1.Element == ColumnReference,
-    T2: Collection, T2.Element == UInt
-  {
-    data?.rows.filter { rows.contains($0.reference) }.map {
-      $0.cells.filter { columns.contains($0.reference.column) }
+    func cells<T1, T2>(atColumns columns: T1, rows: T2) -> [Cell]
+        where T1: Collection, T1.Element == ColumnReference,
+              T2: Collection, T2.Element == UInt
+    {
+        guard let dataRows = data?.rows else { return [] }
+
+        let columnSet = Set(columns)
+        let rowSet = Set(rows)
+        var result: [Cell] = []
+
+        for row in dataRows where rowSet.contains(row.reference) {
+            for cell in row.cells where columnSet.contains(cell.reference.column) {
+                result.append(cell)
+            }
+        }
+
+        return result
     }
-    .reduce([]) { $0 + $1 } ?? []
-  }
+
 }
 
 let referenceCalendar = Calendar(identifier: .gregorian)
