@@ -17,7 +17,7 @@
 
 import Foundation
 
-public struct ColumnReference {
+public struct ColumnReference: Hashable {
   public let value: String
 
   let intValue: Int
